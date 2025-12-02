@@ -54,4 +54,5 @@ Exemplo de Resposta (JSON)JSON{
     "message": "Previsão baseada em fatores simulados de congestionamento e horário."
 }
 
-![voos1](https://github.com/user-attachments/assets/f0abc6f8-8a19-4331-b3a6-ac59830dca8b)
+
+![voos1](https://github.com/user-attachments/assets/6182d714-4814-4c28-9563-bc53bbe8a64c)
