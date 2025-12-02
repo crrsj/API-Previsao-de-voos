@@ -41,7 +41,7 @@ Execução: Inicie a aplicação Spring Boot. O comando abaixo irá executar o a
 
 O servidor estará disponível em http://localhost:8080.
 
-💻 Endpoint da APIO frontend (ou qualquer cliente) deve enviar uma requisição POST para o seguinte endpoint:MétodoURLDescriçãoPOST/api/v1/predictEstima a chance de atraso de um voo.Exemplo de Requisição 
+💻 Endpoint da API, O frontend (ou qualquer cliente) deve enviar uma requisição POST para o seguinte endpoint:MétodoURLDescriçãoPOST/api/v1/predictEstima a chance de atraso de um voo.Exemplo de Requisição 
     (JSON)JSON{
     "airline": "GOL",
     "origin": "GRU",
