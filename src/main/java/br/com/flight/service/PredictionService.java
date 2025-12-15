@@ -1,0 +1,45 @@
+package br.com.flight.service;
+
+import br.com.flight.dto.FlightRequest;
+import br.com.flight.dto.PredictionResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+@Service
+public class PredictionService {
+    // Endereço do microserviço Python (porta 5000)
+    private final String PYTHON_API_URL = "http://localhost:5000"; // URL base
+    private final String PREDICT_ENDPOINT = "/predict_internal"; // Endpoint específico
+    private final WebClient webClient;
+
+    // Construtor: Spring injeta o WebClient.Builder criado na WebClientConfig
+    public PredictionService(WebClient.Builder webClientBuilder) {
+        // Constrói a instância final do WebClient com a URL base do Python
+        this.webClient = webClientBuilder
+                .baseUrl(PYTHON_API_URL)
+                .build();
+    }
+
+    public PredictionResponse getPrediction(FlightRequest request) {
+        // Validação Simples antes de enviar
+        if (request.getOrigem() == null || request.getData_partida() == null) {
+            throw new IllegalArgumentException("Os campos 'origem' e 'data_partida' são obrigatórios.");
+        }
+
+        // 1. Chama a API Python (POST para http://localhost:5000/predict_internal)
+        return webClient.post()
+                .uri(PREDICT_ENDPOINT)
+                .bodyValue(request) // Envia o objeto FlightRequest como corpo JSON
+                .retrieve()
+
+                // 2. Tratamento de Erros da Chamada HTTP (4xx e 5xx)
+                .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
+                        response -> Mono.error(new RuntimeException("Erro ao chamar o serviço de previsão Python: Código " + response.statusCode())))
+
+                // 3. Mapeia a Resposta JSON para o objeto Java PredictionResponse
+                .bodyToMono(PredictionResponse.class)
+                .block(); // Bloqueia para obter o resultado (simples para MVP)
+    }
+}

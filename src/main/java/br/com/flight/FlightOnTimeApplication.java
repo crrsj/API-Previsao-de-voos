@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @OpenAPIDefinition(
 		info = @Info(
-				title = "API - Análise de previsão de atraso ve voos",
+				title = "API - Análise de previsão de atraso de voos",
 				version = "1.0",
 				description = "API para análise de previsão de voos",
 				contact = @Contact(name = "Carlos Roberto", email = "crrsj1@gmail.com")
