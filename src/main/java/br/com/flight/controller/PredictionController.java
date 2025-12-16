@@ -18,7 +18,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/predict")
 @CrossOrigin(origins = "*")
-
 public class PredictionController {
 
     private final PredictionService predictionService;
@@ -29,6 +28,11 @@ public class PredictionController {
 
 
     @PostMapping
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "endpoint responsável por chamar a API Python para determinar a previsão do vôo.")
+    @ApiResponse(responseCode = "200", description = " success", content = {
+            @Content(mediaType = "application.json", schema = @Schema(implementation = ResponseEntity.class))
+    })
     public ResponseEntity<PredictionResponse> getPrediction(@RequestBody FlightRequest request) {
         try {
             // A validação de campos obrigatórios ocorre no Service/Controller.
